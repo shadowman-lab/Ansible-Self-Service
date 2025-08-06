@@ -1,0 +1,135 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: windows-update-dynamic
+  title: Patch Windows VMs Advances
+  description: >-
+    Easily update and manage Windows systems using this guided form.
+  namespace: default
+  tags:
+    - operations
+    - windows
+spec:
+  type: service
+  presentation:
+    buttonLabels:
+      backButtonText: 'Return'
+      createButtonText: 'Update'
+      reviewButtonText: 'Verify'
+  parameters:
+    - title: Windows Update
+      required:
+        - token
+        - categories
+        - serverreboot
+      properties:
+        token:
+          title: 🔑 Access Token
+          type: string
+          description: |
+            Enter your access token for secure authentication.
+          ui:field: AAPTokenField
+          ui:backstage:
+            review:
+              show: false
+        categories:
+          title: Windows Update Categories
+          description: |
+            Choose the Windows Update Categories you want to update.
+          type: string
+          default: '*'
+          enum:
+            - '*'
+            - 'Application'
+            - 'Connectors'
+            - 'CriticalUpdates'
+            - 'DefinitionUpdates'
+            - 'DeveloperKits'
+            - 'Drivers'
+            - 'FeaturePacks Guidance'
+            - 'Microsoft Defender Antivirus'
+            - 'SecurityUpdates'
+            - 'ServicePacks'
+            - 'Tools'
+            - 'UpdateRollups'
+            - 'Updates'
+        serverreboot:
+          title: Reboot Service
+          description: |
+            Restart the VM during Updates?
+          type: string
+          default: 'Yes'
+          enum:
+            - 'Yes'
+            - 'No'
+        showAdvanced:
+          title: Show Advanced Options?
+          description: |
+            Enable this option to configure additional update options.
+          type: boolean
+          default: false
+      dependencies:
+        showAdvanced:
+          oneOf:
+            - properties:
+                showAdvanced:
+                  const: true
+                includeinstall:
+                  type: string
+                  title: Windows Packages to Install
+                  description: |
+                    Specific packages to install, will only install if category is also matched.
+                excludeinstall:
+                  type: string
+                  title: Windows Packages to Exclude
+                  description: |
+                    Specific packages to exclude from installation
+            - properties:
+                showAdvanced:
+                  const: false
+    - title: Review & Confirm
+      properties:
+        review:
+          type: string
+          title: 📝 Review Your Choices
+          description: |
+            Please review your selections before continuing.
+            After you click Update, your Windows updates will be applied.
+          default: "If everything looks correct, click Create to start the process."
+  steps:
+    - id: review
+      name: Review Selections
+      action: debug:log
+      input:
+        message: |
+          Review
+          Categories: ${{ parameters.categories }}
+          Server Reboot: ${{ parameters.serverreboot }}
+          Advanced Options: ${{ parameters.showAdvanced ? 'Enabled' : 'Disabled' }}
+          ${{ parameters.showAdvanced ? 'Packages to Install: ' + parameters.includeinstall }}
+          ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall }}
+
+    - id: launch-job
+      name: Update Time Servers
+      action: rhaap:launch-job-template
+      input:
+        token: ${{ parameters.token }}
+        values:
+          template: Patching Windows
+          extraVariables:
+            categories: ${{ parameters.categories }}
+            acceptlist: ${{ parameters.includeinstall }}
+            rejectlist: ${{ parameters.excludeinstall }}
+            reboot_server: ${{ parameters.serverreboot }}
+
+  output:
+    text:
+      - title: Windows Update Complete!
+        content: |
+          **Job ID:** ${{ steps['launch-job'].output.data.id }}
+          **Status:** ${{ steps['launch-job'].output.data.status }}
+
+          [View Details](${{ steps['launch-job'].output.data.url }})
+
+          ---
+          Thank you for patching Windows with this form!
