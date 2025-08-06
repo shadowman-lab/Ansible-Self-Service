@@ -12,6 +12,7 @@ metadata:
     - intermediate
     - rhel
 spec:
+  type: service
   presentation:
     buttonLabels:
       backButtonText: 'Return'
