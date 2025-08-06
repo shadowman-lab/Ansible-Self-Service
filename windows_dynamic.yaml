@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: windows-update-dynamic
-  title: Patch Windows VMs Advances
+  title: Patch Windows VMs Advanced
   description: >-
     Easily update and manage Windows systems using this guided form.
   namespace: default
@@ -94,7 +94,7 @@ spec:
           title: 📝 Review Your Choices
           description: |
             Please review your selections before continuing.
-            After you click Update, your Windows updates will be applied.
+            After you click Create, your Windows updates will be applied.
           default: "If everything looks correct, click Create to start the process."
   steps:
     - id: review
@@ -106,8 +106,8 @@ spec:
           Categories: ${{ parameters.categories }}
           Server Reboot: ${{ parameters.serverreboot }}
           Advanced Options: ${{ parameters.showAdvanced ? 'Enabled' : 'Disabled' }}
-          ${{ parameters.showAdvanced ? 'Packages to Install: ' + parameters.includeinstall }}
-          ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall }}
+          ${{ parameters.showAdvanced ? 'Packages to Install: ' + parameters.includeinstall : '' }}
+          ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall : '' }}
 
     - id: launch-job
       name: Update Time Servers
