@@ -106,7 +106,7 @@ spec:
           Categories: ${{ parameters.categories }}
           Server Reboot: ${{ parameters.serverreboot }}
           Advanced Options: ${{ parameters.showAdvanced ? 'Enabled' : 'Disabled' }}
-          ${{ parameters.showAdvanced ? 'Packages to Install: ' + parameters.includeinstall : '' }}
+          Packages to install: ${{ parameters.showAdvanced ? parameters.includeinstall : '' }}
           ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall : '' }}
 
     - id: launch-job
