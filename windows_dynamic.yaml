@@ -58,10 +58,10 @@ spec:
           description: |
             Restart the VM during Updates?
           type: string
-          default: 'Yes'
+          default: 'yes'
           enum:
-            - 'Yes'
-            - 'No'
+            - 'yes'
+            - 'no'
         showAdvanced:
           title: Show Advanced Options?
           description: |
@@ -116,7 +116,7 @@ spec:
         values:
           template: Patching Windows
           extraVariables:
-            categories: ${{ parameters.categories }}
+            categories: [${{ parameters.categories }}]
             acceptlist: ${{ parameters.includeinstall }}
             rejectlist: ${{ parameters.excludeinstall }}
             reboot_server: ${{ parameters.serverreboot }}
