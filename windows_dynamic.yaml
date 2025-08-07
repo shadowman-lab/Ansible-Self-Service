@@ -37,22 +37,23 @@ spec:
           description: |
             Choose the Windows Update Categories you want to update.
           type: array
-          default: '*'
-          enum:
-            - '*'
-            - 'Application'
-            - 'Connectors'
-            - 'CriticalUpdates'
-            - 'DefinitionUpdates'
-            - 'DeveloperKits'
-            - 'Drivers'
-            - 'FeaturePacks Guidance'
-            - 'Microsoft Defender Antivirus'
-            - 'SecurityUpdates'
-            - 'ServicePacks'
-            - 'Tools'
-            - 'UpdateRollups'
-            - 'Updates'
+          items:
+            type: string
+            enum:
+              - '*'
+              - 'Application'
+              - 'Connectors'
+              - 'CriticalUpdates'
+              - 'DefinitionUpdates'
+              - 'DeveloperKits'
+              - 'Drivers'
+              - 'FeaturePacks Guidance'
+              - 'Microsoft Defender Antivirus'
+              - 'SecurityUpdates'
+              - 'ServicePacks'
+              - 'Tools'
+              - 'UpdateRollups'
+              - 'Updates'
         serverreboot:
           title: Reboot Service
           description: |
