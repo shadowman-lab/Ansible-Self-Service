@@ -39,6 +39,8 @@ spec:
           type: array
           items:
             type: string
+            uniqueItems: true
+            ui:widget: checkboxes
             enum:
               - '*'
               - 'Application'
@@ -110,7 +112,7 @@ spec:
           ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall : '' }}
 
     - id: launch-job
-      name: Update Time Servers
+      name: Patch Windows VMs
       action: rhaap:launch-job-template
       input:
         token: ${{ parameters.token }}
