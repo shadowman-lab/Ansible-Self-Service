@@ -100,17 +100,6 @@ spec:
             After you click Create, your Windows updates will be applied.
           default: "If everything looks correct, click Create to start the process."
   steps:
-    - id: review
-      name: Review Selections
-      action: debug:log
-      input:
-        message: |
-          Review
-          Categories: ${{ parameters.categories }}
-          Server Reboot: ${{ parameters.serverreboot }}
-          Packages to install: ${{ parameters.includeinstall }}
-          ${{ parameters.showAdvanced ? 'Packages to Exclude: ' + parameters.excludeinstall : '' }}
-
     - id: launch-job
       name: Patch Windows VMs
       action: rhaap:launch-job-template
