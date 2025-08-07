@@ -37,10 +37,10 @@ spec:
           description: |
             Choose the Windows Update Categories you want to update.
           type: array
+          uniqueItems: true
+          ui:widget: checkboxes
           items:
             type: string
-            uniqueItems: true
-            ui:widget: checkboxes
             enum:
               - '*'
               - 'Application'
