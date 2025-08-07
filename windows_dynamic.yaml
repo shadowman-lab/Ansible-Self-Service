@@ -36,7 +36,7 @@ spec:
           title: Windows Update Categories
           description: |
             Choose the Windows Update Categories you want to update.
-          type: string
+          type: array
           default: '*'
           enum:
             - '*'
@@ -116,7 +116,7 @@ spec:
         values:
           template: Patching Windows
           extraVariables:
-            categories: [${{ parameters.categories }}]
+            categories: ${{ parameters.categories }}
             acceptlist: ${{ parameters.includeinstall }}
             rejectlist: ${{ parameters.excludeinstall }}
             reboot_server: ${{ parameters.serverreboot }}
